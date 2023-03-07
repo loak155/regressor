@@ -1,0 +1,92 @@
+regressor:
+  algorithm:
+    - "GradientBoostingRegressor"
+    - "LinearRegression"
+    - "MLPRegressor"
+    - "RandomForestRegressor"
+    - "SVR"
+    - "XGBRegressor"
+  train_test_split_params:
+    test_size: Null # 0~1, None=0.25
+    random_state: 42
+    shuffle: True
+  grid_search_cv_params:
+    n_jobs: -1
+    cv: null # None=5
+    verbose: 3
+  gradient_boosting_regressor_params:
+    loss: ["ls"]
+    learning_rate: [0.1, 0.01]
+    # n_estimators: [3000]
+    # subsample: [0.7]
+    # min_samples_split: [10, 50]
+    # min_samples_leaf: [3, 5, 9]
+    # max_depth: [4, 6, 8]
+    # max_features: ["auto", "sqrt"]
+    random_state: [42]
+  linear_regression_params:
+    n_jobs: -1
+  mlp_regressor_params:
+    hidden_layer_sizes: [10]
+    # hidden_layer_sizes: !!python/Tuple [1, 2]
+    # activation: ["relu", "tanh", "logistic"]
+    solver: ["adam", "sgd"]
+    alpha: [0.0001]
+    max_iter: [1000]
+    random_state: [42]
+  random_forest_regressor_params:
+    n_estimators: [10, 100]
+    random_state: [42]
+  svr_params:
+    kernel: ["rbf"]
+    degree: [3]
+    C: [1, 2]
+  xgregressor_params:
+    max_depth: [2, 4, 6]
+    n_estimators: [50, 100, 200]
+    random_state: [42]
+
+  KFold:
+    n_splits: 5
+    random_state: 42
+
+input:
+  csv_path: "./input/CaliforniaHousing.csv"
+  objective_variable_column: 8 # 0 ~
+
+output:
+  dir: "./output/{datetime}/{algorithm}"
+
+logger:
+  version: 1
+  disable_existing_loggers: false
+  formatters:
+    basic:
+      format: "%(asctime)s [%(levelname)s] %(filename)s:%(lineno)d - %(message)s"
+  handlers:
+    consoleHandler:
+      class: logging.StreamHandler
+      level: INFO
+      formatter: basic
+      stream: ext://sys.stdout
+    fileRotatingHandler:
+      class: logging.handlers.TimedRotatingFileHandler
+      level: INFO
+      formatter: basic
+      filename: "./logs/regressor.log"
+      when: "MIDNIGHT"
+      backupCount: 10
+  loggers:
+    file:
+      handlers: [fileRotatingHandler]
+      level: DEBUG
+      qualname: file
+      propagate: False
+    console:
+      handlers: [consoleHandler]
+      level: INFO
+      qualname: console
+      propagate: False
+  root:
+    level: DEBUG
+    handlers: [consoleHandler, fileRotatingHandler]

@@ -1,0 +1,33 @@
+DNNRegressor | TensorFlow Core v2.9.1
+
+sklearn
+TensorFlow
+Keras
+で回帰を作る
+
+
+Regressor
+Classifier
+Clustering
+Recomendations
+Dimensiondiity Reducataion
+
+
+classification:
+    VGG16 軽量、単純な画像だと精度がよい
+    Xception 複雑な画像に使用多
+    EfficientNet 複雑な画像に使用多
+detection
+    RetinaNet
+    YOLOX 最近
+segmantaion
+    Semantic 全ピクセルがどのクラスに属するか
+        DeepLab
+        HRNet
+        segFormer
+    Instance 一部のピクセルがどのクラスに属するか
+        Mask
+        R-CNN
+    Panotic
+        Semantic + Instance
+ONXXを使うとモデルを軽量化・高速化できる。CPUでも動くようになる
